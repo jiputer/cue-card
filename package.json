@@ -1,0 +1,28 @@
+{
+  "name": "src",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "stop": "pkill --signal SIGINT myApp"
+  },
+  "author": "John Ma",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "apollo-client": "^2.6.10",
+    "apollo-server": "^3.0.0-rc.1",
+    "apollo-server-core": "^3.9.0",
+    "apollo-server-express": "^3.9.0",
+    "are-we-there-yet": "^3.0.0",
+    "bcrypt": "^5.0.1",
+    "bson": "^4.6.4",
+    "esm": "^3.2.25",
+    "graphql": "^16.5.0",
+    "graphql-tag": "^2.12.6",
+    "mongodb": "^4.7.0",
+    "mongoose": "^6.4.0",
+    "react": "^18.2.0",
+    "redis": "^4.1.0"
+  }
+}
