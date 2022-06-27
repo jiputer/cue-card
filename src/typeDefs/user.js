@@ -13,7 +13,7 @@ type User {
 
    type Query {
     me: User!
-    findUser(id: ID, username: String): User!
+    findUser(id: ID, inputUsername: String): User!
     users: [User!]!
   }
 
@@ -21,11 +21,11 @@ type User {
   type Mutation {
     signUp(
       email: String!
-      username: String!
+      inputUsername: String!
       name: String!
-      password: String!
+      inputPassword: String!
     ): User!
-    signIn(email: String!, password: String!): User!
+    signIn(inputUsername: String!, inputPassword: String!): User!
     LogStatus: Boolean
   }
 

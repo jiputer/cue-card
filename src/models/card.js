@@ -15,5 +15,7 @@ const cardSchema = new Schema(
     }
 );
 
+
+
 const Card = mongoose.model('Card', cardSchema);
 export default Card;

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
-
+import bcrypt from 'bcryptjs'
+const { hash, compare} = bcrypt
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -9,6 +10,19 @@ const userSchema = new Schema({
     email: String
 });
 
-const User = mongoose.model('User', userSchema);
+userSchema.pre('save', async function(){
+    if(this.isModified('password')){
+        this.password = await User.hash(this.password)
+    }
+})
 
+
+userSchema.statics.hash = (password) => hash(password, 10)
+
+userSchema.methods.matchesPassword = function(password){
+  return compare(password, this.password)
+}
+
+
+const User = mongoose.model('User', userSchema);
 export default User;

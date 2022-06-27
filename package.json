@@ -16,6 +16,7 @@
     "apollo-server-express": "^3.9.0",
     "are-we-there-yet": "^3.0.0",
     "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "bson": "^4.6.4",
     "esm": "^3.2.25",
     "graphql": "^16.5.0",

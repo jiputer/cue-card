@@ -1,5 +1,5 @@
 import models from '../models/index.js';
-//import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const {User} = models
 
@@ -14,27 +14,43 @@ const resolvers = {
           ) => {
             return User.findById(req.session.userId, fields(info)).exec()
           },
-        findUser: async(args={id: String, username: String})=>{
+        findUser: async(root, args, context, info)=>{
 
-            return await User.findOne({username: args.username})
+            return await User.findOne({username: args.inputUsername.valueOf()})
         }
     },
     Mutation: {
-        signUp: async( args = {inputUsername: String, inputPassword: String, email: String, name:String })=>{
+        signUp: async(root, args, context, info)=>{
             //we get username password and email from the args
-            const userExist = await User.findOne({username: args.inputUsername.toString});
-            if (userExist) throw new Error('User exists')
-               // bcrypt.hash(inputPassword, 10, function(err, hash) {
-               // });
-            await User.create({name: args.name.toString, email: args.email.toString, username: args.inputUsername.toString, password: args.inputPassword.toString})
-            const user = User.findOne({name: args.name.toString, email: args.email.toString, username: args.inputUsername.toString, password: args.inputPassword.toString})
+            const userExist = await User.findOne({username: args.inputUsername.valueOf()});
+            
+            if (userExist) {
+                const user_name = userExist.username
+                throw new Error(`User exists ${user_name.valueOf()}`)
+            }
+            bcrypt.hash(args.inputPassword.valueOf(), 10, function(err, hash) {
+            }); 
+            await User.create({name: args.name.valueOf(), email: args.email.valueOf(), username: args.inputUsername.valueOf(), password: args.inputPassword.valueOf()})
+            const user = User.findOne({name: args.name.valueOf(), email: args.email.valueOf(), username: args.inputUsername.valueOf(), password: args.inputPassword.valueOf()})
 
             return user
+
     
         },
-        signIn: async (args= {email: String, inputPassword: String})=> {
-            const findUser = await User.find({email: args.email.toString, password: args.inputPassword.toString});
-            return User
+        signIn: async (root, args, context, info)=> {
+            const findUser = await User.find({username: args.inputUsername.toString()});
+
+            if(!findUser){
+                throw new Error(`No matching email and password found`)
+            }
+            const correctPass = findUser.matchesPassword(args.inputPassword.toString())
+            if(!correctPass){
+                return User
+            }
+            else{
+                throw new Error(`Invalid password`)
+            }
+            
             
         }
 

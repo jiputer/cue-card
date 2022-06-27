@@ -19,20 +19,23 @@ const resolvers = {
   },
 
   Mutation: {
-    createCard: async(args={username: String})=>{
+    createCard: async(root, args, context, info)=>{
       // add card to user profile
       const user = await User.find({username: args.username}).exec();
       const card =await Card.create({author: user})
       return card
 
     },
-    editCard: async(args= {text: String, CardID: String})=>{
+    editCard: async(root, args, context, info)=>{
 
-      const card =await Card.update({_id: args.CardID, fronttxt: args.text})
+      const card = await Card.updateOne({_id: args.CardID}, {fronttxt: args.text})
+      if (!card){
+        throw new Error('Updating failed, wrong id')
+      }
       return card
 
     },
-    deleteCard: async(args= {CardID: String}) => {
+    deleteCard: async(root, args, context, info) => {
       const card = await Card.deleteOne({_id: args.CardID})
       return card
     }
