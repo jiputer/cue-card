@@ -20,7 +20,7 @@ import mongoose from 'mongoose'
 //     cache: new InMemoryCache()
 //   });
 
-const uri = 'mongodb+srv://cuecard:chickennuggets@cluster0.92yoh.mongodb.net/?retryWrites=true&w=majority'
+const uri = 'mongodb+srv://cuecard:chickennugget@cluster0.92yoh.mongodb.net/?retryWrites=true&w=majority'
 process.title = "myApp";
 
 async function dbconnect(){
