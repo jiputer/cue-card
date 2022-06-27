@@ -10,18 +10,18 @@ const userSchema = new Schema({
     email: String
 });
 
-userSchema.pre('save', async function(){
-    if(this.isModified('password')){
-        this.password = await User.hash(this.password)
-    }
-})
+// userSchema.pre('save', async function(){
+//     if(this.isModified('password')){
+//         this.password = await User.hash(this.password)
+//     }
+// })
 
 
-userSchema.statics.hash = (password) => hash(password, 10)
+//userSchema.statics.hash = (password) => hash(password, 10)
 
-userSchema.methods.matchesPassword = function(password){
+userSchema.method('matchesPassword', async function(password){
   return compare(password, this.password)
-}
+})
 
 
 const User = mongoose.model('User', userSchema);
