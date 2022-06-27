@@ -16,6 +16,8 @@ const cardSchema = new Schema(
 );
 
 
-
+cardSchema.methods.generateID = async function(){
+    
+}
 const Card = mongoose.model('Card', cardSchema);
 export default Card;
